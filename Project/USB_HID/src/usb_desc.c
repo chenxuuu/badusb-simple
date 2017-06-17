@@ -167,24 +167,24 @@ const uint8_t Joystick_StringVendor[JOYSTICK_SIZ_STRING_VENDOR] =
     JOYSTICK_SIZ_STRING_VENDOR, /* Size of Vendor string */
     USB_STRING_DESCRIPTOR_TYPE,  /* bDescriptorType*/
     /* Manufacturer: "STMicroelectronics" */
-    'O', 0, 'S', 0, 'U', 0, 'k', 0, 'e', 0, 'y', 0, 'b', 0, 'o', 0,
-    'a', 0, 'r', 0, 'd', 0, '.', 0, 'c', 0, 'h', 0, 'e', 0, 'n', 0,
-    'x', 0, 'u', 0
+    'M', 0, 'i', 0, 'c', 0, 'r', 0, 'o', 0, 's', 0, 'o', 0, 'f', 0,
+    't', 0, ' ', 0, 'k', 0, 'e', 0, 'y', 0, 'b', 0, 'r', 0, 'o', 0,
+    'a', 0, 'd', 0
   };
 
 const uint8_t Joystick_StringProduct[JOYSTICK_SIZ_STRING_PRODUCT] =
   {
     JOYSTICK_SIZ_STRING_PRODUCT,          /* bLength */
     USB_STRING_DESCRIPTOR_TYPE,        /* bDescriptorType */
-    'O', 0, 'S', 0, 'U', 0, 'k', 0, 'e', 0, 'y', 0, 'b', 0,
-    'r', 0, 'o', 0, 'a', 0, 'd', 0, '.', 0, ' ', 0, ' ', 0
+    'M', 0, 'i', 0, 'c', 0, 'r', 0, 'o', 0, 's', 0, 'o', 0,
+    'f', 0, 't', 0, ' ', 0, 'k', 0, 'e', 0, 'y', 0, '.', 0
   };
 
 uint8_t Joystick_StringSerial[JOYSTICK_SIZ_STRING_SERIAL] =
   {
     JOYSTICK_SIZ_STRING_SERIAL,           /* bLength */
     USB_STRING_DESCRIPTOR_TYPE,        /* bDescriptorType */
-    'O', 0, 'S', 0, 'U', 0, ' ', 0, 'k', 0, 'e', 0, 'y', 0
+    'M', 0, 'S', 0, ' ', 0, ' ', 0, 'k', 0, 'e', 0, 'y', 0
   };
 
 /******************* (C) COPYRIGHT 2011 STMicroelectronics *****END OF FILE****/
