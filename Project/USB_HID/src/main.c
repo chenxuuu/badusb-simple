@@ -14,18 +14,7 @@ void TIM3_IRQHandler(void);
 extern void USB_Disconnect_Config(void);
 __IO uint8_t PrevXferComplete = 1;
 
-int config_mode = 0, key_bit = 0, key_buff = 0, light_time = 0, ledcount = 0, R, G, B, light_choice = 0,color = 1;
-
 void delay(u16 time)
-{    
-   u16 i=0;  
-   while(time--)
-   {
-      i=120;  // 自己定义
-      while(i--) ;    
-   }
-}
-void delay_fast(u16 time)
 {    
    u16 i=0;  
    while(time--)
@@ -89,8 +78,18 @@ void NVIC_Configuration(void)
 
 void IRQHandler(void)   //中断执行函数
 {
-    Joystick_Send(0, 0x1B);
-    Joystick_Send(0, 0);
+    //空233
+}
+
+void key_check(void)
+{
+    if(!GPIO_ReadInputDataBit(GPIOC, GPIO_Pin_13))
+    {
+        Joystick_Send(WIN_L, 0x15);
+        delay(25);
+        Joystick_Send(0, 0);
+        push_lines("cmd\n");
+    }
 }
 
 /****************************************************************************
@@ -107,28 +106,7 @@ int main(void)
 
     RCC_APB2PeriphClockCmd(RCC_APB2Periph_AFIO, ENABLE);
     
-    RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA, ENABLE);  //初始化GPIO时钟
-    GPIO_InitStructure.GPIO_Pin = GPIO_Pin_13 | GPIO_Pin_14 | GPIO_Pin_15 | GPIO_Pin_9;
-    GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
-    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;
-    GPIO_Init(GPIOA, &GPIO_InitStructure);
-
-    
-    RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOB, ENABLE);  //初始化GPIO时钟
-    GPIO_InitStructure.GPIO_Pin = GPIO_Pin_3 | GPIO_Pin_4 | GPIO_Pin_9;
-    GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
-    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;
-    GPIO_Init(GPIOB, &GPIO_InitStructure);
-    
-    
-    RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOB, ENABLE); 
-    GPIO_InitStructure.GPIO_Pin =  GPIO_Pin_5 | GPIO_Pin_8;
-    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IPU;//GPIO_Mode_IN_FLOATING;
-    GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
-    GPIO_Init(GPIOB, &GPIO_InitStructure);
-    
-    
-    RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOC, ENABLE);
+    RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOC, ENABLE);    //初始化按键
     GPIO_InitStructure.GPIO_Pin =  GPIO_Pin_13;
     GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IPU;//GPIO_Mode_IN_FLOATING;
     GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
@@ -143,14 +121,14 @@ int main(void)
     Tout：TIM3 溢出时间（单位为 us） 
     */
     
-  RCC_Configuration(); 		//设置系统时钟 
-  USB_Disconnect_Config();	//设置USB连接控制线    	   
-  NVIC_Configuration();     //USB通信中断配置
-  USB_Init();				//USB初始化
-  while (1)
-  {
-
-  }
+    RCC_Configuration(); 		//设置系统时钟 
+    USB_Disconnect_Config();	//设置USB连接控制线    	   
+    NVIC_Configuration();     //USB通信中断配置
+    USB_Init();				//USB初始化
+    while (1)
+    {
+        key_check();
+    }
 }
 //通用定时器3中断初始化
 
