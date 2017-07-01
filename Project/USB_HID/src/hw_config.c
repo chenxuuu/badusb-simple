@@ -223,6 +223,7 @@ u8 JoyState(void)
 void Joystick_Send(u8 win_buf,u8 key_buf)
 {
 u8 Mouse_Buffer[8] = {0, 0, 0, 0, 0, 0, 0, 0};
+while(GetEPTxStatus(ENDP1) == EP_TX_VALID);  //检测上次发送是否完成
 /* prepare buffer to send */
 Mouse_Buffer[0]=win_buf;    
 Mouse_Buffer[2]=key_buf;       
@@ -234,13 +235,6 @@ SetEPTxValid(ENDP1);
 
 void Key_Input(char ch)
 {
-    u16 i = 0, time, time_set = 22;
-    time = time_set;
-    while(time--)
-    {
-        i = 12000;
-        while(i--) ;
-    }
     if(ch == 'a' || ch == 'A')
     {
         Joystick_Send(0, 0x04);
@@ -517,13 +511,6 @@ void Key_Input(char ch)
     {
         Joystick_Send(0x02, 0x38);
     }
-    time = time_set;
-    while(time--)
-    {
-        i = 12000;
-        while(i--) ;
-    }
-    Joystick_Send(0, 0);
 }
 
 
@@ -534,6 +521,6 @@ void push_lines(char *s)
 		Key_Input(*s);
 		s++;
 	}  
-
+    Joystick_Send(0, 0);
 }
 /******************* (C) COPYRIGHT 2011 STMicroelectronics *****END OF FILE****/
